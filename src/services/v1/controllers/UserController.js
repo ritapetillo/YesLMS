@@ -12,6 +12,17 @@ exports.getUsers = async (req, res, next) => {
   }
 };
 
+exports.getCurrentUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
+    res.status(201).send({ user });
+  } catch (err) {
+    const error = new Error("No users found");
+    error.code = 401;
+    next(error);
+  }
+};
+
 exports.registerStudent = async (req, res, next) => {
   try {
     const newStudent = await new Student(req.body);
