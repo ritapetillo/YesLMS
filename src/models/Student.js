@@ -16,6 +16,9 @@ const studentSchema = new schema(
 
 studentSchema.pre("save", async function (next) {
   try {
+    if (!this.isModified("password")) {
+      return next();
+    }
     const salt = await bcrypt.genSalt();
     console.log(salt);
     this.password = await bcrypt.hash(this.password, salt);

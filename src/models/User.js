@@ -23,6 +23,10 @@ const userSchema = new schema(
       type: String,
       required: true,
     },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
   },
   options
 );
@@ -37,5 +41,12 @@ userSchema.methods.comparePass = async function (password, next) {
     throw error;
   }
 };
-
+userSchema.methods.verify = async function () {
+  try {
+    this.verified = true;
+    this.save();
+  } catch (err) {
+    throw err;
+  }
+};
 module.exports = mongoose.model("users", userSchema);

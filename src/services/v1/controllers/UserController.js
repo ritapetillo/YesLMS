@@ -1,5 +1,7 @@
 const User = require("../../../models/User");
 const Student = require("../../../models/Student");
+const { authenticate, generateTokenEmail } = require("../middlewares/auth");
+const { confirmEmail } = require("../middlewares/email");
 
 exports.getUsers = async (req, res, next) => {
   try {
@@ -27,6 +29,9 @@ exports.registerStudent = async (req, res, next) => {
   try {
     const newStudent = await new Student(req.body);
     const student = await newStudent.save();
+    const emailToken = await generateTokenEmail(student);
+    const url = `${process.env.API_URI}/api/v1/auth/confirm/${emailToken}`;
+    const email = await confirmEmail(student, url);
     res.status(201).send({ student });
   } catch (err) {
     console.log(err);

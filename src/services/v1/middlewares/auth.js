@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { TOKEN_SECRET } = process.env;
+const { TOKEN_SECRET, EMAIL_SECRET } = process.env;
 
 exports.verifyRole = async (req, res, next) => {
   const { role } = req.user;
@@ -47,4 +47,16 @@ exports.generateToken = async (user, res) => {
     httpOnly: true,
   });
   return { accessToken };
+};
+
+exports.generateTokenEmail = async (user, res) => {
+  const accessToken = await jwt.sign(
+    { id: user._id },
+    EMAIL_SECRET
+    // {
+    //   expiresIn: "100",
+    // }
+  );
+  console.log(accessToken);
+  return accessToken;
 };

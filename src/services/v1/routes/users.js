@@ -14,5 +14,9 @@ userRouter.get(
 
 userRouter.get("/students", UserController.retriveAllStudents);
 userRouter.post("/students", UserController.registerStudent);
+userRouter.delete("/", async (req, res, next) => {
+  const deleted = await User.deleteMany();
+  res.send("deleted");
+});
 
 module.exports = userRouter;
