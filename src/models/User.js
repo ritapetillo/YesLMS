@@ -3,7 +3,7 @@ const userRouter = require("../services/v1/routes/users");
 const schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
 
-const options = { discriminatorKey: "role" };
+const options = { discriminatorKey: "role", timestamps: true };
 
 const userSchema = new schema(
   {

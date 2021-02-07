@@ -11,12 +11,15 @@ userRouter.get(
   auth.verifyRole,
   UserController.getCurrentUser
 );
-
-userRouter.get("/students", UserController.retriveAllStudents);
-userRouter.post("/students", UserController.registerStudent);
 userRouter.delete("/", async (req, res, next) => {
   const deleted = await User.deleteMany();
   res.send("deleted");
 });
+
+//TEACHERS ROUTES
+userRouter.post("/teachers", UserController.registerTeacher);
+
+//ADMIN ROUTES
+userRouter.post("/admin", UserController.registerAdmin);
 
 module.exports = userRouter;

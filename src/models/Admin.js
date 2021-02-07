@@ -4,17 +4,16 @@ const User = require("./User");
 const options = { discriminatorKey: "role" };
 const savePassword = require("../utils/savePass");
 
-const studentSchema = new schema(
+const adminSchema = new schema(
   {
-    enrollments: [{ type: String }],
-    first_evaluation: {
+    admin_role: {
       type: String,
     },
   },
   options
 );
 
-studentSchema.pre("save", savePassword);
+adminSchema.pre("save", savePassword);
 
-const studentModel = User.discriminator("student", studentSchema);
-module.exports = studentModel;
+const adminModel = User.discriminator("admin", adminSchema);
+module.exports = adminModel;

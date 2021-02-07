@@ -37,6 +37,7 @@ exports.confirmEmail = async (req, res, next) => {
       const verifiedUser = await jwt.verify(token, EMAIL_SECRET);
       const { id } = verifiedUser;
       const user = await User.findById(id);
+      if (user.verified) throw Error;
       await user.verify();
       res.send("verified");
     } catch (err) {

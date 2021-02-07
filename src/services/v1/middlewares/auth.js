@@ -50,13 +50,10 @@ exports.generateToken = async (user, res) => {
 };
 
 exports.generateTokenEmail = async (user, res) => {
-  const accessToken = await jwt.sign(
-    { id: user._id },
-    EMAIL_SECRET
-    // {
-    //   expiresIn: "100",
-    // }
-  );
+  const { id, verified } = user;
+  const accessToken = await jwt.sign({ id, verified }, EMAIL_SECRET, {
+    expiresIn: "1d",
+  });
   console.log(accessToken);
   return accessToken;
 };

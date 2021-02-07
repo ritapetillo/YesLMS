@@ -1,5 +1,7 @@
 const User = require("../../../models/User");
 const Student = require("../../../models/Student");
+const Teacher = require("../../../models/Teacher");
+const Admin = require("../../../models/Admin");
 const { authenticate, generateTokenEmail } = require("../middlewares/auth");
 const { confirmEmail } = require("../middlewares/email");
 
@@ -25,29 +27,35 @@ exports.getCurrentUser = async (req, res, next) => {
   }
 };
 
-exports.registerStudent = async (req, res, next) => {
+//TEACHERS
+
+exports.registerTeacher = async (req, res, next) => {
   try {
-    const newStudent = await new Student(req.body);
-    const student = await newStudent.save();
-    const emailToken = await generateTokenEmail(student);
+    const newTeacher = await new Teacher(req.body);
+    const teacher = await newTeacher.save();
+    const emailToken = await generateTokenEmail(teacher);
     const url = `${process.env.API_URI}/api/v1/auth/confirm/${emailToken}`;
-    const email = await confirmEmail(student, url);
-    res.status(201).send({ student });
+    const email = await confirmEmail(teacher, url);
+    res.status(201).send({ teacher });
   } catch (err) {
-    console.log(err);
     const error = new Error("It was not possible to create a new student");
     error.code = 404;
     next(error);
   }
 };
 
-exports.retriveAllStudents = async (req, res, next) => {
+//ADMIN
+
+exports.registerAdmin = async (req, res, next) => {
   try {
-    const students = await Student.find();
-    res.status(201).send({ students });
+    const newAdmin = await new Admin(req.body);
+    const admin = await newAdmin.save();
+    const emailToken = await generateTokenEmail(admin);
+    const url = `${process.env.API_URI}/api/v1/auth/confirm/${emailToken}`;
+    const email = await confirmEmail(teacher, url);
+    res.status(201).send({ teacher });
   } catch (err) {
-    console.log(err);
-    const error = new Error("It was not possible to find any students");
+    const error = new Error("It was not possible to create a new student");
     error.code = 404;
     next(error);
   }
