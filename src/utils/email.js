@@ -28,3 +28,18 @@ exports.confirmEmail = async (user, url) => {
     console.log(err);
   }
 };
+
+exports.sendResetPasswordEmail = async (user, url) => {
+  try {
+    let info = await transporter.sendMail({
+      from: process.env.GMAIL_USER, // sender address
+      to: user.email, // list of receivers
+      subject: "Reset your password", // Subject line
+      text: url, // plain text body
+      html: `<a href=${url}>Restore your password</a>`, // html body
+    });
+    console.log("Message sent: %s", info.messageId);
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const userRouter = require("../services/v1/routes/users");
 const schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
+const resetPass = require("../utils/resetPass");
 
 const options = { discriminatorKey: "role", timestamps: true };
 
@@ -30,6 +31,8 @@ const userSchema = new schema(
   },
   options
 );
+
+userSchema.methods.editPassword = resetPass;
 
 userSchema.methods.comparePass = async function (password, next) {
   try {

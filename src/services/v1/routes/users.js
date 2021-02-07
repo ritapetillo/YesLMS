@@ -16,9 +16,6 @@ userRouter.delete("/", async (req, res, next) => {
   res.send("deleted");
 });
 
-//TEACHERS ROUTES
-userRouter.post("/teachers", UserController.registerTeacher);
-
 //ADMIN ROUTES
 userRouter.post("/admin", UserController.registerAdmin);
 
